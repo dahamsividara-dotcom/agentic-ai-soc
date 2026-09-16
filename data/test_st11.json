@@ -1,0 +1,1 @@
+[{"timestamp": "2026-09-11T11:00:00Z", "event_id": 5156, "event_type": "Network Connection", "source": "WS-ST11", "username": "user11", "source_ip": "10.40.1.11", "destination_ip": "203.0.113.50", "process": null, "command_line": null, "message": "Connection to CTI-listed suspicious IP"}]

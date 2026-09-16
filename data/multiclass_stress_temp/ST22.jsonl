@@ -1,0 +1,1 @@
+{"timestamp": "2026-09-11T13:05:00Z", "event_id": 5156, "event_type": "Network Connection", "source": "WS-ST22", "username": "employee", "source_ip": "10.60.1.22", "destination_ip": "142.250.72.14", "process": "chrome.exe", "command_line": null, "message": "Normal web browsing"}

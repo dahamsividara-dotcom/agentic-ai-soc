@@ -1,0 +1,2 @@
+{"timestamp": "2026-09-11T10:30:00Z", "event_id": 4688, "event_type": "Process Creation", "source": "WS-ST09", "username": "user9", "source_ip": "10.30.2.30", "destination_ip": null, "process": "powershell.exe", "command_line": "powershell.exe -EncodedCommand SQBFAFgA", "message": "Encoded execution"}
+{"timestamp": "2026-09-11T10:35:00Z", "event_id": 4688, "event_type": "Process Creation", "source": "WS-ST09", "username": "user9", "source_ip": "10.30.2.30", "destination_ip": null, "process": "cmd.exe", "command_line": "cmd.exe /c whoami", "message": "Discovery"}

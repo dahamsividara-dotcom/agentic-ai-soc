@@ -1,0 +1,2 @@
+{"timestamp": "2026-09-11T10:40:00Z", "event_id": 4688, "event_type": "Process Creation", "source": "WS-ST10", "username": "user10a", "source_ip": "10.30.2.40", "destination_ip": null, "process": "cmd.exe", "command_line": "cmd.exe /c whoami", "message": "Discovery command"}
+{"timestamp": "2026-09-11T10:42:00Z", "event_id": 4688, "event_type": "Process Creation", "source": "WS-ST10", "username": "user10b", "source_ip": "10.30.2.40", "destination_ip": null, "process": "chrome.exe", "command_line": "chrome.exe", "message": "Different user normal activity"}

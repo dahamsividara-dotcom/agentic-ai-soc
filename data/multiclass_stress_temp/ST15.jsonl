@@ -1,0 +1,1 @@
+{"timestamp": "2026-09-11T11:20:00Z", "event_id": 5156, "event_type": "Network Connection", "source": "WS-ST15", "username": "user15", "source_ip": "10.40.1.15", "destination_ip": "10.40.1.20", "process": null, "command_line": null, "message": "Internal server communication"}

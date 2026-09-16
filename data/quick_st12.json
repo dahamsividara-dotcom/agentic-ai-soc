@@ -1,0 +1,1 @@
+[{"timestamp": "2026-09-11T11:05:00Z", "event_id": 5156, "event_type": "Network Connection", "source": "WS-ST12", "username": "user12", "source_ip": "10.40.1.12", "destination_ip": "198.51.100.25", "process": null, "command_line": null, "message": "Connection to known malicious destination"}]

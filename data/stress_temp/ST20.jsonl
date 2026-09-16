@@ -1,0 +1,2 @@
+{"timestamp": "2026-09-11T12:25:00Z", "event_id": 4688, "event_type": "Process Creation", "source": "WS-ST20", "username": "user20", "source_ip": "10.50.1.20", "destination_ip": null, "process": "cmd.exe", "command_line": "cmd.exe /c whoami", "message": "Discovery"}
+{"timestamp": "2026-09-11T12:27:00Z", "event_id": 5156, "event_type": "Network Connection", "source": "WS-ST20", "username": "user20", "source_ip": "10.50.1.20", "destination_ip": "203.0.113.50", "process": null, "command_line": null, "message": "Suspicious external communication"}

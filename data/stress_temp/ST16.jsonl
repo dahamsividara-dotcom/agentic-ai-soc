@@ -1,0 +1,1 @@
+{"timestamp": "2026-09-11T12:00:00Z", "event_id": 4625, "event_type": "Failed Login", "source": "SRV-ST16", "username": "user16", "source_ip": "10.50.1.16", "destination_ip": null, "process": null, "command_line": null, "message": "Single failed authentication"}

