@@ -32,17 +32,20 @@ class SOCOrchestrator:
         ↓
     Security Decision
         ↓
-    AI Reasoning
+    Evidence-Grounded AI Reasoning
         ↓
-    LLM Reasoning
+    Local LLM Reasoning
         ↓
     Incident Response Recommendation
+
+    Dynamic Risk Assessment is the authoritative
+    quantitative risk source for downstream agents.
 
     Automatic destructive actions are disabled.
     Human approval is required for response actions.
     """
 
-    VERSION = "1.1"
+    VERSION = "1.3"
 
     def __init__(self):
 
@@ -73,13 +76,17 @@ class SOCOrchestrator:
         # 1. LOG INGESTION
         # =========================================================
 
-        events = self.ingestor.ingest(log_file)
+        events = self.ingestor.ingest(
+            log_file
+        )
 
         # =========================================================
-        # 2. DETECTION
+        # 2. DETECTION ENGINE
         # =========================================================
 
-        findings = self.detector.analyze(events)
+        findings = self.detector.analyze(
+            events
+        )
 
         # =========================================================
         # 3. ATTACK-CHAIN REASONING
@@ -90,7 +97,7 @@ class SOCOrchestrator:
         )
 
         # =========================================================
-        # 4. INVESTIGATION + CTI
+        # 4. INVESTIGATION + THREAT INTELLIGENCE
         # =========================================================
 
         investigation = self.investigator.investigate(
@@ -104,30 +111,32 @@ class SOCOrchestrator:
         risk_assessment = self.risk_assessor.assess(
             findings=findings,
             attack_chain=attack_chain,
-            investigation=investigation
+            investigation=investigation,
         )
 
         # =========================================================
         # 6. SECURITY DECISION
-        #
-        # Investigation is passed directly so that the
-        # Decision Agent can consume CTI evidence.
         # =========================================================
 
         decision = self.decision_agent.decide(
             findings=findings,
             risk_assessment=risk_assessment,
             attack_chain=attack_chain,
-            investigation=investigation
+            investigation=investigation,
         )
 
         # =========================================================
         # 7. EVIDENCE-GROUNDED AI REASONING
+        #
+        # IMPORTANT:
+        # Dynamic risk assessment is passed explicitly so that
+        # AI Reasoning uses the same authoritative risk result.
         # =========================================================
 
         reasoning = self.ai_reasoner.reason(
-            attack_chain,
-            investigation
+            attack_chain=attack_chain,
+            investigation=investigation,
+            risk_assessment=risk_assessment,
         )
 
         # =========================================================
@@ -137,23 +146,21 @@ class SOCOrchestrator:
         llm_result = self.llm.generate(
             attack_chain=attack_chain,
             investigation=investigation,
-            risk_assessment=risk_assessment
+            risk_assessment=risk_assessment,
         )
 
         # =========================================================
         # 9. INCIDENT RESPONSE RECOMMENDATION
-        #
-        # Final dynamic risk and final decision are passed to
-        # Response Agent so it does not rely only on the raw
-        # attack-chain risk.
         # =========================================================
 
         response = self.response_agent.recommend(
+            events=events,
+            findings=findings,
             attack_chain=attack_chain,
             investigation=investigation,
-            reasoning=reasoning,
             risk_assessment=risk_assessment,
-            decision=decision
+            decision=decision,
+            reasoning=reasoning,
         )
 
         # =========================================================
@@ -181,5 +188,20 @@ class SOCOrchestrator:
 
             "llm_reasoning": llm_result,
 
-            "response": response
-        } 
+            "response": response,
+        }
+
+
+if __name__ == "__main__":
+
+    print(
+        "Agentic AI-SOC Orchestrator"
+    )
+
+    print(
+        f"Version: {SOCOrchestrator.VERSION}"
+    )
+
+    print(
+        "Status: READY"
+    ) 

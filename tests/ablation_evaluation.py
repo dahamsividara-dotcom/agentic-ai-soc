@@ -38,7 +38,7 @@ def write_events(events: list[dict[str, Any]]) -> None:
 
 
 # ============================================================
-# METRICS
+# BINARY CLASSIFICATION METRICS
 # ============================================================
 
 def binary_metrics(
@@ -77,18 +77,189 @@ def binary_metrics(
     }
 
 
-def extract_mitre_technique(finding: dict[str, Any]) -> str | None:
-    technique = finding.get("mitre_technique")
+# ============================================================
+# MITRE HELPERS
+# ============================================================
 
-    if technique:
-        return str(technique)
+def normalize_mitre_id(value: Any) -> str | None:
+    """
+    Normalize MITRE ATT&CK technique values.
 
-    technique = finding.get("technique")
+    Examples:
+        T1059.001
+        t1059.001
+        T1059.001 - PowerShell
+        Technique: T1059.001
+    """
 
-    if technique:
-        return str(technique)
+    if value is None:
+        return None
+
+    text = str(value).strip()
+
+    if not text:
+        return None
+
+    upper = text.upper()
+
+    # Direct ID extraction
+    import re
+
+    match = re.search(r"\bT\d{4}(?:\.\d{3})?\b", upper)
+
+    if match:
+        return match.group(0)
 
     return None
+
+
+def extract_mitre_from_finding(
+    finding: dict[str, Any],
+) -> list[str]:
+
+    techniques: set[str] = set()
+
+    candidate_keys = [
+        "mitre_technique",
+        "mitre_techniques",
+        "technique",
+        "techniques",
+        "mitre_id",
+        "mitre_ids",
+        "attack_technique",
+        "attack_techniques",
+    ]
+
+    for key in candidate_keys:
+        value = finding.get(key)
+
+        if value is None:
+            continue
+
+        if isinstance(value, list):
+            values = value
+        else:
+            values = [value]
+
+        for item in values:
+            technique = normalize_mitre_id(item)
+
+            if technique:
+                techniques.add(technique)
+
+    return sorted(techniques)
+
+
+def extract_mitre_from_stage(
+    stage: dict[str, Any],
+) -> list[str]:
+
+    techniques: set[str] = set()
+
+    candidate_keys = [
+        "mitre_technique",
+        "mitre_techniques",
+        "technique",
+        "techniques",
+        "mitre_id",
+        "mitre_ids",
+        "attack_technique",
+        "attack_techniques",
+    ]
+
+    for key in candidate_keys:
+        value = stage.get(key)
+
+        if value is None:
+            continue
+
+        if isinstance(value, list):
+            values = value
+        else:
+            values = [value]
+
+        for item in values:
+            technique = normalize_mitre_id(item)
+
+            if technique:
+                techniques.add(technique)
+
+    return sorted(techniques)
+
+
+def extract_predicted_mitre(
+    result: dict[str, Any],
+) -> list[str]:
+    """
+    Extract predicted MITRE techniques from all available
+    output locations.
+
+    Priority:
+      1. Findings
+      2. Attack-chain stages
+      3. AI reasoning
+    """
+
+    techniques: set[str] = set()
+
+    # --------------------------------------------------------
+    # 1. Findings
+    # --------------------------------------------------------
+
+    findings = result.get("findings", [])
+
+    if isinstance(findings, list):
+        for finding in findings:
+
+            if not isinstance(finding, dict):
+                continue
+
+            for technique in extract_mitre_from_finding(finding):
+                techniques.add(technique)
+
+    # --------------------------------------------------------
+    # 2. Attack-chain stages
+    # --------------------------------------------------------
+
+    attack_chain = result.get("attack_chain", {})
+
+    if isinstance(attack_chain, dict):
+
+        stages = attack_chain.get("stages", [])
+
+        if isinstance(stages, list):
+
+            for stage in stages:
+
+                if not isinstance(stage, dict):
+                    continue
+
+                for technique in extract_mitre_from_stage(stage):
+                    techniques.add(technique)
+
+    # --------------------------------------------------------
+    # 3. AI reasoning fallback
+    # --------------------------------------------------------
+
+    ai_reasoning = result.get("ai_reasoning", {})
+
+    if isinstance(ai_reasoning, dict):
+
+        mitre = ai_reasoning.get("mitre_techniques", [])
+
+        if isinstance(mitre, list):
+            values = mitre
+        else:
+            values = [mitre]
+
+        for value in values:
+
+            technique = normalize_mitre_id(value)
+
+            if technique:
+                techniques.add(technique)
+
+    return sorted(techniques)
 
 
 def mitre_metrics(
@@ -100,22 +271,55 @@ def mitre_metrics(
     correct = 0
     expected_total = 0
 
-    for scenario, result in zip(scenarios, scenario_results):
+    for scenario, result in zip(
+        scenarios,
+        scenario_results,
+    ):
 
-        expected = set(
-            str(x)
-            for x in scenario.get("expected_techniques", []) 
+        expected_values = scenario.get(
+            "expected_techniques",
+            [],
         )
 
-        predicted = set(
-            str(x)
-            for x in result.get("predicted_mitre", [])
+        expected: set[str] = set()
+
+        if isinstance(expected_values, list):
+            values = expected_values
+        else:
+            values = [expected_values]
+
+        for value in values:
+
+            technique = normalize_mitre_id(value)
+
+            if technique:
+                expected.add(technique)
+
+        predicted_values = result.get(
+            "predicted_mitre",
+            [],
         )
+
+        predicted: set[str] = set()
+
+        if isinstance(predicted_values, list):
+            values = predicted_values
+        else:
+            values = [predicted_values]
+
+        for value in values:
+
+            technique = normalize_mitre_id(value)
+
+            if technique:
+                predicted.add(technique)
 
         predicted_total += len(predicted)
         expected_total += len(expected)
 
-        correct += len(expected.intersection(predicted))
+        correct += len(
+            expected.intersection(predicted)
+        )
 
     precision = (
         correct / predicted_total
@@ -130,7 +334,10 @@ def mitre_metrics(
     )
 
     if precision + recall:
-        f1 = 2 * precision * recall / (precision + recall)
+        f1 = (
+            2 * precision * recall
+            / (precision + recall)
+        )
     else:
         f1 = 0.0
 
@@ -138,6 +345,9 @@ def mitre_metrics(
         "precision": precision,
         "recall": recall,
         "f1": f1,
+        "correct": correct,
+        "predicted_total": predicted_total,
+        "expected_total": expected_total,
     }
 
 
@@ -146,69 +356,105 @@ def mitre_metrics(
 # ============================================================
 
 ABLATIONS = [
+
     {
         "id": "FULL",
         "name": "Full Agentic AI-SOC",
-        "description": "Complete multi-agent architecture",
+        "description": (
+            "Complete multi-agent architecture"
+        ),
     },
+
     {
         "id": "NO_ATTACK_CHAIN",
         "name": "Without Attack-Chain Reasoning",
-        "description": "Removes temporal/entity attack-chain correlation",
+        "description": (
+            "Removes temporal/entity attack-chain "
+            "correlation"
+        ),
     },
+
     {
         "id": "NO_CTI",
         "name": "Without CTI",
-        "description": "Removes Cyber Threat Intelligence enrichment",
+        "description": (
+            "Removes Cyber Threat Intelligence enrichment"
+        ),
     },
+
     {
         "id": "NO_CONTEXT",
         "name": "Without Context-Aware Detection",
-        "description": "Uses a simplified rule-based detection layer",
+        "description": (
+            "Uses a simplified rule-based detection layer"
+        ),
     },
+
     {
         "id": "NO_RISK",
         "name": "Without Dynamic Risk Assessment",
-        "description": "Uses static attack-chain risk instead of dynamic risk",
+        "description": (
+            "Uses static attack-chain risk instead "
+            "of dynamic risk"
+        ),
     },
 ]
 
 
 # ============================================================
-# COMPONENT VARIANTS
+# SIMPLE DETECTION ENGINE
 # ============================================================
 
 class SimpleDetectionEngine:
     """
     Ablation detector.
 
-    Represents a conventional rule-focused detector without
-    context-aware reasoning.
+    Represents a conventional rule-focused detector
+    without context-aware reasoning.
     """
 
     VERSION = "ABLATION-1.0"
 
-    def analyze(self, events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def analyze(
+        self,
+        events: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
 
         findings = []
 
         for event in events:
 
             event_type = str(
-                event.get("event_type", "")
+                event.get(
+                    "event_type",
+                    "",
+                )
             ).lower()
 
             process = str(
-                event.get("process", "")
+                event.get(
+                    "process",
+                    "",
+                )
             ).lower()
 
             command = str(
-                event.get("command_line", "")
+                event.get(
+                    "command_line",
+                    "",
+                )
             ).lower()
 
             finding = None
 
-            if "powershell" in process or "powershell" in command:
+            # ------------------------------------------------
+            # PowerShell
+            # ------------------------------------------------
+
+            if (
+                "powershell" in process
+                or "powershell" in command
+            ):
 
                 finding = {
                     "rule_id": "AB-001",
@@ -219,6 +465,10 @@ class SimpleDetectionEngine:
                     "mitre_technique": "T1059.001",
                     "event": event,
                 }
+
+            # ------------------------------------------------
+            # Discovery
+            # ------------------------------------------------
 
             elif (
                 "whoami" in command
@@ -239,7 +489,14 @@ class SimpleDetectionEngine:
                     "event": event,
                 }
 
-            elif "failed login" in event_type:
+            # ------------------------------------------------
+            # Failed authentication
+            # ------------------------------------------------
+
+            elif (
+                "failed login" in event_type
+                or "failed authentication" in event_type
+            ):
 
                 finding = {
                     "rule_id": "AB-003",
@@ -251,7 +508,13 @@ class SimpleDetectionEngine:
                     "event": event,
                 }
 
-            elif "network connection" in event_type:
+            # ------------------------------------------------
+            # Network connection
+            # ------------------------------------------------
+
+            elif (
+                "network connection" in event_type
+            ):
 
                 finding = {
                     "rule_id": "AB-004",
@@ -269,6 +532,10 @@ class SimpleDetectionEngine:
         return findings
 
 
+# ============================================================
+# NO-CTI INVESTIGATION AGENT
+# ============================================================
+
 class NoCTIInvestigationAgent:
     """
     Investigation agent without CTI enrichment.
@@ -281,21 +548,34 @@ class NoCTIInvestigationAgent:
         attack_chain: dict[str, Any],
     ) -> dict[str, Any]:
 
-        stages = attack_chain.get("stages", [])
+        stages = attack_chain.get(
+            "stages",
+            [],
+        )
 
         evidence = []
 
         for stage in stages:
 
-            evidence.append({
-                "stage": stage.get("stage"),
-                "status": stage.get("status"),
-                "confidence": stage.get("confidence"),
-                "evidence": stage.get("evidence", []),
-            })
+            evidence.append(
+                {
+                    "stage": stage.get("stage"),
+                    "status": stage.get("status"),
+                    "confidence": stage.get("confidence"),
+                    "evidence": stage.get(
+                        "evidence",
+                        [],
+                    ),
+                }
+            )
 
         confidences = [
-            float(stage.get("confidence", 0.0))
+            float(
+                stage.get(
+                    "confidence",
+                    0.0,
+                )
+            )
             for stage in stages
             if stage.get("confidence") is not None
         ]
@@ -314,25 +594,39 @@ class NoCTIInvestigationAgent:
                 "NO_INCIDENT",
             ),
             "hypothesis": (
-                "Investigation based only on security "
-                "event evidence without CTI enrichment."
+                "Investigation based only on "
+                "security event evidence without "
+                "CTI enrichment."
             ),
-            "confidence": round(confidence, 4),
+            "confidence": round(
+                confidence,
+                4,
+            ),
             "evidence_count": len(evidence),
             "cti_matches": [],
             "cti_context": [],
             "evidence": evidence,
             "recommendations": [
-                "Validate suspicious activity against additional telemetry.",
-                "Review affected hosts and user accounts.",
+                (
+                    "Validate suspicious activity "
+                    "against additional telemetry."
+                ),
+                (
+                    "Review affected hosts and "
+                    "user accounts."
+                ),
             ],
         }
 
 
+# ============================================================
+# NO ATTACK-CHAIN ENGINE
+# ============================================================
+
 class NoAttackChainEngine:
     """
-    Ablation engine that preserves individual findings but
-    removes temporal/entity correlation.
+    Ablation engine that preserves individual
+    findings but removes temporal/entity correlation.
     """
 
     VERSION = "ABLATION-1.0"
@@ -346,20 +640,33 @@ class NoAttackChainEngine:
 
         for index, finding in enumerate(findings):
 
-            stages.append({
-                "stage_id": f"STAGE-{index + 1:03d}",
-                "stage": self._map_stage(finding),
-                "mitre_technique": (
-                    finding.get("mitre_technique")
-                ),
-                "status": "OBSERVED",
-                "confidence": float(
-                    finding.get("confidence", 0.0)
-                ),
-                "evidence": [finding],
-            })
+            stages.append(
+                {
+                    "stage_id": (
+                        f"STAGE-{index + 1:03d}"
+                    ),
+                    "stage": self._map_stage(
+                        finding
+                    ),
+                    "mitre_technique": (
+                        finding.get(
+                            "mitre_technique"
+                        )
+                    ),
+                    "status": "OBSERVED",
+                    "confidence": float(
+                        finding.get(
+                            "confidence",
+                            0.0,
+                        )
+                    ),
+                    "evidence": [finding],
+                }
+            )
 
-        risk = self._simple_risk(findings)
+        risk = self._simple_risk(
+            findings
+        )
 
         return {
             "chain_id": "ABLATION-CHAIN-001",
@@ -369,7 +676,9 @@ class NoAttackChainEngine:
                 else "NO_INCIDENT"
             ),
             "risk_score": risk,
-            "risk_level": self._risk_level(risk),
+            "risk_level": self._risk_level(
+                risk
+            ),
             "stages": stages,
             "relationships": [],
             "relationship_count": 0,
@@ -380,8 +689,9 @@ class NoAttackChainEngine:
                 "Attack-chain reasoning disabled.",
             ],
             "explanation": (
-                "Independent security findings without "
-                "temporal/entity attack-chain correlation."
+                "Independent security findings "
+                "without temporal/entity "
+                "attack-chain correlation."
             ),
         }
 
@@ -390,7 +700,9 @@ class NoAttackChainEngine:
         finding: dict[str, Any],
     ) -> str:
 
-        technique = finding.get("mitre_technique")
+        technique = finding.get(
+            "mitre_technique"
+        )
 
         mapping = {
             "T1059.001": "Execution",
@@ -421,19 +733,31 @@ class NoAttackChainEngine:
         for finding in findings:
 
             severity = str(
-                finding.get("severity", "LOW")
+                finding.get(
+                    "severity",
+                    "LOW",
+                )
             ).upper()
 
             confidence = float(
-                finding.get("confidence", 0.0)
+                finding.get(
+                    "confidence",
+                    0.0,
+                )
             )
 
             score += int(
-                weights.get(severity, 10)
+                weights.get(
+                    severity,
+                    10,
+                )
                 * confidence
             )
 
-        return min(score, 100)
+        return min(
+            score,
+            100,
+        )
 
     @staticmethod
     def _risk_level(
@@ -458,49 +782,100 @@ class NoAttackChainEngine:
 
 class AblationOrchestrator:
 
-    def __init__(self, mode: str):
+    def __init__(
+        self,
+        mode: str,
+    ):
 
         self.mode = mode
 
         self.ingestor = LogIngestor()
+
+        # ----------------------------------------------------
+        # Detection
+        # ----------------------------------------------------
 
         if mode == "NO_CONTEXT":
             self.detector = SimpleDetectionEngine()
         else:
             self.detector = DetectionEngine()
 
+        # ----------------------------------------------------
+        # Attack chain
+        # ----------------------------------------------------
+
         if mode == "NO_ATTACK_CHAIN":
             self.chain_engine = NoAttackChainEngine()
         else:
             self.chain_engine = AttackChainEngine()
 
+        # ----------------------------------------------------
+        # CTI
+        # ----------------------------------------------------
+
         if mode == "NO_CTI":
-            self.investigator = NoCTIInvestigationAgent()
+            self.investigator = (
+                NoCTIInvestigationAgent()
+            )
         else:
             self.investigator = InvestigationAgent()
 
-        self.risk_assessor = RiskAssessmentAgent()
+        self.risk_assessor = (
+            RiskAssessmentAgent()
+        )
 
-        self.decision_agent = DecisionAgent()
+        self.decision_agent = (
+            DecisionAgent()
+        )
 
-        self.ai_reasoner = AIReasoningAgent()
+        self.ai_reasoner = (
+            AIReasoningAgent()
+        )
 
     def run(
         self,
         log_file: Path,
     ) -> dict[str, Any]:
 
-        events = self.ingestor.ingest(log_file)
+        # ----------------------------------------------------
+        # 1. Ingest
+        # ----------------------------------------------------
 
-        findings = self.detector.analyze(events)
-
-        attack_chain = self.chain_engine.build_chain(
-            findings
+        events = self.ingestor.ingest(
+            log_file
         )
 
-        investigation = self.investigator.investigate(
-            attack_chain
+        # ----------------------------------------------------
+        # 2. Detection
+        # ----------------------------------------------------
+
+        findings = self.detector.analyze(
+            events
         )
+
+        # ----------------------------------------------------
+        # 3. Attack-chain reasoning
+        # ----------------------------------------------------
+
+        attack_chain = (
+            self.chain_engine.build_chain(
+                findings
+            )
+        )
+
+        # ----------------------------------------------------
+        # 4. Investigation / CTI
+        # ----------------------------------------------------
+
+        investigation = (
+            self.investigator.investigate(
+                attack_chain
+            )
+        )
+
+        # ----------------------------------------------------
+        # 5. Risk assessment
+        # ----------------------------------------------------
 
         if self.mode == "NO_RISK":
 
@@ -526,11 +901,17 @@ class AblationOrchestrator:
 
         else:
 
-            risk_assessment = self.risk_assessor.assess(
-                findings=findings,
-                attack_chain=attack_chain,
-                investigation=investigation,
+            risk_assessment = (
+                self.risk_assessor.assess(
+                    findings=findings,
+                    attack_chain=attack_chain,
+                    investigation=investigation,
+                )
             )
+
+        # ----------------------------------------------------
+        # 6. Decision
+        # ----------------------------------------------------
 
         decision = self.decision_agent.decide(
             findings=findings,
@@ -538,9 +919,14 @@ class AblationOrchestrator:
             attack_chain=attack_chain,
         )
 
+        # ----------------------------------------------------
+        # 7. AI reasoning
+        # ----------------------------------------------------
+
         reasoning = self.ai_reasoner.reason(
             attack_chain,
             investigation,
+            risk_assessment=risk_assessment,
         )
 
         return {
@@ -567,11 +953,17 @@ def evaluate_ablation(
 
     print()
     print("=" * 72)
-    print(f"ABLATION: {config['name']}")
-    print(f"MODE    : {mode}")
+    print(
+        f"ABLATION: {config['name']}"
+    )
+    print(
+        f"MODE    : {mode}"
+    )
     print("=" * 72)
 
-    orchestrator = AblationOrchestrator(mode)
+    orchestrator = AblationOrchestrator(
+        mode
+    )
 
     y_true = []
     y_pred = []
@@ -584,7 +976,10 @@ def evaluate_ablation(
 
         scenario_id = scenario.get(
             "scenario_id",
-            scenario.get("id", "UNKNOWN"),
+            scenario.get(
+                "id",
+                "UNKNOWN",
+            ),
         )
 
         ground_truth = str(
@@ -610,7 +1005,10 @@ def evaluate_ablation(
             TEMP_LOG_FILE
         )
 
-        latency = time.perf_counter() - start
+        latency = (
+            time.perf_counter()
+            - start
+        )
 
         total_latency += latency
 
@@ -626,39 +1024,81 @@ def evaluate_ablation(
             )
         ).upper()
 
+        # ----------------------------------------------------
+        # Binary attack classification
+        # ----------------------------------------------------
+
         predicted_attack = (
-            predicted_decision == "MALICIOUS"
+            predicted_decision
+            == "MALICIOUS"
         )
 
         true_attack = (
-            ground_truth == "MALICIOUS"
+            ground_truth
+            == "MALICIOUS"
         )
 
-        y_true.append(true_attack)
-        y_pred.append(predicted_attack)
+        y_true.append(
+            true_attack
+        )
 
-        predicted_mitre = []
+        y_pred.append(
+            predicted_attack
+        )
 
-        for finding in result.get(
-            "findings",
-            [],
-        ):
+        # ----------------------------------------------------
+        # MITRE extraction
+        # ----------------------------------------------------
 
-            technique = extract_mitre_technique(
-                finding
+        predicted_mitre = (
+            extract_predicted_mitre(
+                result
             )
+        )
 
-            if technique:
-                predicted_mitre.append(
-                    technique
+        expected_mitre = []
+
+        expected_values = scenario.get(
+            "expected_techniques",
+            [],
+        )
+
+        if isinstance(
+            expected_values,
+            list,
+        ):
+            for value in expected_values:
+
+                technique = (
+                    normalize_mitre_id(
+                        value
+                    )
                 )
+
+                if technique:
+                    expected_mitre.append(
+                        technique
+                    )
+
+        # ----------------------------------------------------
+        # Scenario result
+        # ----------------------------------------------------
 
         scenario_result = {
             "scenario_id": scenario_id,
             "ground_truth": ground_truth,
-            "predicted_decision": predicted_decision,
+            "predicted_decision": (
+                predicted_decision
+            ),
+            "binary_true_attack": (
+                true_attack
+            ),
+            "binary_predicted_attack": (
+                predicted_attack
+            ),
             "correct": (
-                ground_truth == predicted_decision
+                ground_truth
+                == predicted_decision
                 or (
                     ground_truth
                     in {
@@ -669,8 +1109,15 @@ def evaluate_ablation(
                     == "BENIGN"
                 )
             ),
-            "predicted_mitre": sorted(
-                set(predicted_mitre)
+            "expected_mitre": sorted(
+                set(expected_mitre)
+            ),
+            "predicted_mitre": predicted_mitre,
+            "mitre_correct": sorted(
+                set(expected_mitre)
+                .intersection(
+                    set(predicted_mitre)
+                )
             ),
             "latency_seconds": round(
                 latency,
@@ -682,10 +1129,18 @@ def evaluate_ablation(
             scenario_result
         )
 
+    # --------------------------------------------------------
+    # Classification metrics
+    # --------------------------------------------------------
+
     metrics = binary_metrics(
         y_true,
         y_pred,
     )
+
+    # --------------------------------------------------------
+    # MITRE metrics
+    # --------------------------------------------------------
 
     mitre = mitre_metrics(
         scenarios,
@@ -693,7 +1148,8 @@ def evaluate_ablation(
     )
 
     average_latency = (
-        total_latency / len(scenarios)
+        total_latency
+        / len(scenarios)
         if scenarios
         else 0.0
     )
@@ -702,42 +1158,98 @@ def evaluate_ablation(
         "ablation_id": mode,
         "name": config["name"],
         "description": config["description"],
+
         "dataset": {
-            "file": str(DATASET_FILE),
-            "scenario_count": len(scenarios),
+            "file": str(
+                DATASET_FILE
+            ),
+            "scenario_count": len(
+                scenarios
+            ),
+            "evaluation_type": (
+                "Unseen holdout dataset"
+            ),
         },
+
         "metrics": metrics,
+
         "mitre_metrics": mitre,
+
         "average_latency_seconds": round(
             average_latency,
             6,
         ),
+
         "scenario_results": scenario_results,
     }
 
+    # --------------------------------------------------------
+    # Console output
+    # --------------------------------------------------------
+
     print(
-        f"Accuracy   : {metrics['accuracy']:.4f}"
+        f"Accuracy   : "
+        f"{metrics['accuracy']:.4f}"
     )
+
     print(
-        f"Precision  : {metrics['precision']:.4f}"
+        f"Precision  : "
+        f"{metrics['precision']:.4f}"
     )
+
     print(
-        f"Recall     : {metrics['recall']:.4f}"
+        f"Recall     : "
+        f"{metrics['recall']:.4f}"
     )
+
     print(
-        f"F1         : {metrics['f1']:.4f}"
+        f"F1         : "
+        f"{metrics['f1']:.4f}"
     )
+
     print(
-        f"FP         : {metrics['FP']}"
+        f"FP         : "
+        f"{metrics['FP']}"
     )
+
     print(
-        f"FN         : {metrics['FN']}"
+        f"FN         : "
+        f"{metrics['FN']}"
     )
+
     print(
-        f"MITRE F1   : {mitre['f1']:.4f}"
+        f"MITRE Precision : "
+        f"{mitre['precision']:.4f}"
     )
+
     print(
-        f"Latency    : {average_latency:.6f}s"
+        f"MITRE Recall    : "
+        f"{mitre['recall']:.4f}"
+    )
+
+    print(
+        f"MITRE F1        : "
+        f"{mitre['f1']:.4f}"
+    )
+
+    print(
+        f"MITRE Correct    : "
+        f"{mitre['correct']}"
+    )
+
+    print(
+        f"MITRE Predicted  : "
+        f"{mitre['predicted_total']}"
+    )
+
+    print(
+        f"MITRE Expected   : "
+        f"{mitre['expected_total']}"
+    )
+
+    print(
+        f"Latency          : "
+        f"{average_latency:.6f}s"
     )
 
     return result
@@ -752,17 +1264,28 @@ def main():
     scenarios = load_dataset()
 
     print("=" * 72)
-    print("AGENTIC AI-SOC - ABLATION STUDY")
-    print("=" * 72)
     print(
-        f"Holdout scenarios : {len(scenarios)}"
-    )
-    print(
-        "Evaluation mode   : Unseen holdout dataset"
+        "AGENTIC AI-SOC - ABLATION STUDY"
     )
     print("=" * 72)
 
+    print(
+        f"Holdout scenarios : "
+        f"{len(scenarios)}"
+    )
+
+    print(
+        "Evaluation mode   : "
+        "Unseen holdout dataset"
+    )
+
+    print("=" * 72)
+
     all_results = []
+
+    # --------------------------------------------------------
+    # Run every ablation
+    # --------------------------------------------------------
 
     for config in ABLATIONS:
 
@@ -771,16 +1294,20 @@ def main():
             scenarios,
         )
 
-        all_results.append(result)
+        all_results.append(
+            result
+        )
 
     # --------------------------------------------------------
     # Summary table
     # --------------------------------------------------------
 
     print()
-    print("=" * 100)
-    print("ABLATION STUDY SUMMARY")
-    print("=" * 100)
+    print("=" * 125)
+    print(
+        "ABLATION STUDY SUMMARY"
+    )
+    print("=" * 125)
 
     print(
         f"{'Variant':<38}"
@@ -790,13 +1317,20 @@ def main():
         f"{'F1':>10}"
         f"{'FP':>7}"
         f"{'FN':>7}"
+        f"{'MITRE F1':>12}"
     )
 
-    print("-" * 100)
+    print("-" * 125)
 
     for result in all_results:
 
-        metrics = result["metrics"]
+        metrics = result[
+            "metrics"
+        ]
+
+        mitre = result[
+            "mitre_metrics"
+        ]
 
         print(
             f"{result['name'][:37]:<38}"
@@ -806,50 +1340,179 @@ def main():
             f"{metrics['f1']:>10.4f}"
             f"{metrics['FP']:>7}"
             f"{metrics['FN']:>7}"
+            f"{mitre['f1']:>12.4f}"
         )
 
-    print("=" * 100)
+    print("=" * 125)
 
     # --------------------------------------------------------
     # Component impact
     # --------------------------------------------------------
 
     full = next(
-        r for r in all_results
-        if r["ablation_id"] == "FULL"
+        result
+        for result in all_results
+        if result["ablation_id"]
+        == "FULL"
     )
 
-    full_f1 = full["metrics"]["f1"]
+    full_f1 = full[
+        "metrics"
+    ]["f1"]
+
+    full_accuracy = full[
+        "metrics"
+    ]["accuracy"]
+
+    full_recall = full[
+        "metrics"
+    ]["recall"]
+
+    full_mitre_f1 = full[
+        "mitre_metrics"
+    ]["f1"]
 
     component_impact = {}
 
     for result in all_results:
 
-        if result["ablation_id"] == "FULL":
+        if result[
+            "ablation_id"
+        ] == "FULL":
             continue
 
-        f1 = result["metrics"]["f1"]
+        f1 = result[
+            "metrics"
+        ]["f1"]
+
+        accuracy = result[
+            "metrics"
+        ]["accuracy"]
+
+        recall = result[
+            "metrics"
+        ]["recall"]
+
+        mitre_f1 = result[
+            "mitre_metrics"
+        ]["f1"]
 
         component_impact[
             result["ablation_id"]
         ] = {
-            "variant": result["name"],
-            "full_system_f1": full_f1,
-            "ablation_f1": f1,
-            "f1_drop": round(
-                full_f1 - f1,
-                4,
-            ),
+
+            "variant": result[
+                "name"
+            ],
+
+            "full_system_accuracy":
+                full_accuracy,
+
+            "ablation_accuracy":
+                accuracy,
+
+            "accuracy_drop":
+                round(
+                    full_accuracy
+                    - accuracy,
+                    4,
+                ),
+
+            "full_system_recall":
+                full_recall,
+
+            "ablation_recall":
+                recall,
+
+            "recall_drop":
+                round(
+                    full_recall
+                    - recall,
+                    4,
+                ),
+
+            "full_system_f1":
+                full_f1,
+
+            "ablation_f1":
+                f1,
+
+            "f1_drop":
+                round(
+                    full_f1
+                    - f1,
+                    4,
+                ),
+
+            "full_system_mitre_f1":
+                full_mitre_f1,
+
+            "ablation_mitre_f1":
+                mitre_f1,
+
+            "mitre_f1_drop":
+                round(
+                    full_mitre_f1
+                    - mitre_f1,
+                    4,
+                ),
         }
 
+    # --------------------------------------------------------
+    # Final output
+    # --------------------------------------------------------
+
     final_output = {
-        "study": "Agentic AI-SOC Ablation Study",
+
+        "study":
+            "Agentic AI-SOC Ablation Study",
+
+        "purpose":
+            (
+                "Evaluate the contribution of "
+                "individual Agentic AI-SOC components "
+                "using an unseen holdout dataset."
+            ),
+
         "dataset": {
-            "file": str(DATASET_FILE),
-            "scenario_count": len(scenarios),
+
+            "file":
+                str(DATASET_FILE),
+
+            "scenario_count":
+                len(scenarios),
+
+            "evaluation_type":
+                "Unseen holdout dataset",
         },
-        "variants": all_results,
-        "component_impact": component_impact,
+
+        "metrics": {
+
+            "classification":
+                [
+                    "Accuracy",
+                    "Precision",
+                    "Recall",
+                    "F1",
+                    "False Positive Rate",
+                ],
+
+            "mitre":
+                [
+                    "MITRE Precision",
+                    "MITRE Recall",
+                    "MITRE F1",
+                ],
+
+            "latency":
+                "Average processing latency per scenario",
+        },
+
+        "variants":
+            all_results,
+
+        "component_impact":
+            component_impact,
     }
 
     with open(
@@ -866,12 +1529,14 @@ def main():
 
     print()
     print(
-        f"Results saved to: {RESULTS_FILE}"
+        f"Results saved to: "
+        f"{RESULTS_FILE}"
     )
+
     print(
         "ABLATION STUDY COMPLETE"
     )
 
 
 if __name__ == "__main__":
-    main() 
+    main()
